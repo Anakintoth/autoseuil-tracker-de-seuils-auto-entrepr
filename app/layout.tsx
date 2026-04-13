@@ -4,12 +4,12 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Autoseuil Tracker De — La solution simple pour les pros',
-  description: 'La solution simple pour les pros',
+  title: 'SeuilNet — Vos seuils fiscaux, toujours sous contrôle',
+  description: 'Vos seuils fiscaux, toujours sous contrôle',
   icons: { icon: '/favicon.svg' },
   openGraph: {
-    title: 'Autoseuil Tracker De',
-    description: 'La solution simple pour les pros',
+    title: 'SeuilNet',
+    description: 'Vos seuils fiscaux, toujours sous contrôle',
     type: 'website',
   },
 };
