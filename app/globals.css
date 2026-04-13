@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --primary: #2563EB;
-  --secondary: #3B82F6;
-  --accent: #F59E0B;
-  --bg-dark: #0D1B3E;
-  --bg-card: #152150;
+  --primary: #2D6A4F;
+  --secondary: #52B788;
+  --accent: #F4A261;
+  --bg-dark: #0D1F17;
+  --bg-card: #162D22;
 }
 
 body {
@@ -17,7 +17,7 @@ body {
 }
 
 ::selection {
-  background: #2563EB40;
+  background: #2D6A4F40;
   color: white;
 }
 
@@ -30,9 +30,9 @@ body {
   content: '';
   position: absolute;
   top: -40%; left: -20%; width: 140%; height: 180%;
-  background: radial-gradient(ellipse at 20% 50%, #2563EB15 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 20%, #3B82F612 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 80%, #F59E0B08 0%, transparent 50%);
+  background: radial-gradient(ellipse at 20% 50%, #2D6A4F15 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, #52B78812 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, #F4A26108 0%, transparent 50%);
   animation: mesh-drift 20s ease-in-out infinite;
   pointer-events: none;
 }
@@ -54,19 +54,19 @@ body {
 }
 .orb-1 {
   width: 400px; height: 400px;
-  background: #2563EB;
+  background: #2D6A4F;
   top: -10%; right: -5%;
   animation-delay: 0s;
 }
 .orb-2 {
   width: 300px; height: 300px;
-  background: #3B82F6;
+  background: #52B788;
   bottom: -5%; left: -8%;
   animation-delay: -5s;
 }
 .orb-3 {
   width: 200px; height: 200px;
-  background: #F59E0B;
+  background: #F4A261;
   top: 40%; left: 50%;
   animation-delay: -10s;
   opacity: 0.2;
@@ -97,7 +97,7 @@ body {
 /* ═══ Buttons ═══ */
 .btn-primary {
   @apply px-8 py-3.5 rounded-xl text-lg font-semibold transition-all duration-300;
-  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  background: linear-gradient(135deg, #2D6A4F, #52B788);
   color: white;
   position: relative;
   overflow: hidden;
@@ -106,13 +106,13 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  background: linear-gradient(135deg, #52B788, #2D6A4F);
   opacity: 0;
   transition: opacity 0.3s;
 }
 .btn-primary:hover::before { opacity: 1; }
 .btn-primary:hover {
-  box-shadow: 0 0 40px #2563EB50, 0 8px 32px #2563EB30;
+  box-shadow: 0 0 40px #2D6A4F50, 0 8px 32px #2D6A4F30;
   transform: translateY(-2px);
 }
 .btn-primary span { position: relative; z-index: 1; }
@@ -126,7 +126,7 @@ body {
 }
 .btn-secondary:hover {
   background: rgba(255,255,255,0.08);
-  border-color: #2563EB60;
+  border-color: #2D6A4F60;
   transform: translateY(-2px);
 }
 
@@ -138,15 +138,15 @@ body {
   @apply rounded-2xl p-7 transition-all duration-300;
 }
 .card:hover {
-  border-color: #2563EB40;
-  box-shadow: 0 8px 40px #2563EB15, 0 0 0 1px #2563EB20;
+  border-color: #2D6A4F40;
+  box-shadow: 0 8px 40px #2D6A4F15, 0 0 0 1px #2D6A4F20;
   transform: translateY(-4px);
   background: rgba(255,255,255,0.05);
 }
 
 /* ═══ Gradient text ═══ */
 .gradient-text {
-  background: linear-gradient(135deg, #2563EB, #3B82F6, #F59E0B);
+  background: linear-gradient(135deg, #2D6A4F, #52B788, #F4A261);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -161,7 +161,7 @@ body {
 
 /* ═══ Glow ring ═══ */
 .glow {
-  box-shadow: 0 0 60px #2563EB25, 0 0 120px #2563EB10;
+  box-shadow: 0 0 60px #2D6A4F25, 0 0 120px #2D6A4F10;
 }
 
 .glow-border {
@@ -172,7 +172,7 @@ body {
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, #2563EB, #3B82F6, #F59E0B);
+  background: linear-gradient(135deg, #2D6A4F, #52B788, #F4A261);
   z-index: -1;
   opacity: 0;
   transition: opacity 0.4s;
@@ -205,7 +205,7 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, #2563EB, #3B82F6, #F59E0B, #2563EB);
+  background: linear-gradient(135deg, #2D6A4F, #52B788, #F4A261, #2D6A4F);
   background-size: 300% 300%;
   animation: border-rotate 6s linear infinite;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -228,9 +228,9 @@ body {
   border-radius: 999px;
   font-size: 0.875rem;
   font-weight: 500;
-  background: #2563EB12;
-  color: #2563EB;
-  border: 1px solid #2563EB25;
+  background: #2D6A4F12;
+  color: #2D6A4F;
+  border: 1px solid #2D6A4F25;
   backdrop-filter: blur(10px);
 }
 
