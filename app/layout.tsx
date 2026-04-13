@@ -4,12 +4,12 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'SeuilNet — Vos seuils auto-entrepreneur, maîtrisés sans effort',
-  description: 'Vos seuils auto-entrepreneur, maîtrisés sans effort',
+  title: 'SeuilNet — Maîtrisez vos seuils, pilotez votre activité.',
+  description: 'Maîtrisez vos seuils, pilotez votre activité.',
   icons: { icon: '/favicon.svg' },
   openGraph: {
     title: 'SeuilNet',
-    description: 'Vos seuils auto-entrepreneur, maîtrisés sans effort',
+    description: 'Maîtrisez vos seuils, pilotez votre activité.',
     type: 'website',
   },
 };
