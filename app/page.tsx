@@ -245,7 +245,7 @@ export default function Home() {
             et vous alerte avant tout dépassement fiscal.
           </p>
           <p className="text-sm mb-10 reveal reveal-d2" style={{ color: '#6b7280' }}>
-            Conçu pour les auto-entrepreneurs · Mis à jour chaque année · 100 % en français
+            Conçu pour les auto-entrepreneurs · Seuils 2026 intégrés · 100 % en français
           </p>
 
           <div className="flex gap-4 justify-center flex-wrap reveal reveal-d3">
@@ -344,6 +344,64 @@ export default function Home() {
 
       <div className="section-divider" />
 
+      {/* ═══ Comment ça marche ═══ */}
+      <section className="py-28 px-6 relative">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16 reveal">
+            <div className="badge mb-4">Simple à utiliser</div>
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+              Opérationnel en <span className="gradient-text">3 minutes</span>
+            </h2>
+            <p style={{ color: '#6b7280' }}>Pas de comptable requis. Pas de formation nécessaire.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                step: '01',
+                icon: '🏗️',
+                title: 'Renseignez votre activité',
+                desc: 'Indiquez votre type d\'activité (BNC, BIC, ventes), votre chiffre d\'affaires actuel et votre date de début d\'exercice. Moins de 2 minutes.',
+                d: 'reveal-d1',
+              },
+              {
+                step: '02',
+                icon: '📊',
+                title: 'Votre dashboard se génère',
+                desc: 'SeuilNet calcule instantanément vos jauges, projette votre CA annuel et identifie les seuils les plus proches selon votre rythme de facturation.',
+                d: 'reveal-d2',
+              },
+              {
+                step: '03',
+                icon: '🔔',
+                title: 'Recevez vos alertes',
+                desc: 'Dès 70 %, 85 % ou 95 % d\'un seuil atteint, vous recevez un e-mail. Zéro surprise, zéro régularisation imprévue. Vous pilotez sereinement.',
+                d: 'reveal-d3',
+              },
+            ].map((s, i) => (
+              <div key={i} className={`text-center reveal ${s.d}`}>
+                <div className="relative inline-block mb-5">
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mx-auto"
+                    style={{ background: 'rgba(45,106,79,0.12)', border: '1px solid #2D6A4F25' }}>
+                    {s.icon}
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
+                    style={{ background: 'linear-gradient(135deg, #2D6A4F, #52B788)', color: 'white' }}>
+                    {s.step.replace('0', '')}
+                  </div>
+                </div>
+                <h3 className="font-bold text-lg mb-3">{s.title}</h3>
+                <p className="leading-relaxed text-sm" style={{ color: '#9ca3af' }}>{s.desc}</p>
+                {i < 2 && (
+                  <div className="hidden md:block absolute" style={{ top: '50%', right: '-16px', color: '#2D6A4F40', fontSize: '1.5rem' }}>→</div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
       {/* ═══ Features ═══ */}
       <section id="features" className="py-28 px-6 relative">
         <div className="max-w-5xl mx-auto">
@@ -389,6 +447,38 @@ export default function Home() {
                 <h3 className="font-bold text-lg mb-2">{f.title}</h3>
                 <p className="leading-relaxed" style={{ color: '#9ca3af' }}>{f.desc}</p>
               </SpotlightCard>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="section-divider" />
+
+      {/* ═══ Compatibility & Trust Strip ═══ */}
+      <section className="py-14 px-6">
+        <div className="max-w-4xl mx-auto reveal">
+          <p className="text-center text-xs font-semibold tracking-widest uppercase mb-8" style={{ color: '#4b5563' }}>
+            Compatible avec vos outils comptables
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-8">
+            {['Indy', 'Pennylane', 'Comptastart', 'Qonto', 'Shine'].map((tool) => (
+              <div key={tool} className="px-5 py-2.5 rounded-xl text-sm font-semibold tracking-tight"
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', color: '#6b7280' }}>
+                {tool}
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-6 mt-10">
+            {[
+              { icon: '🔒', label: 'Chiffrement AES-256' },
+              { icon: '🇫🇷', label: 'Hébergé en France' },
+              { icon: '✅', label: 'Conforme RGPD' },
+              { icon: '🆓', label: 'Sans carte bancaire' },
+            ].map((badge) => (
+              <div key={badge.label} className="flex items-center gap-2 text-xs" style={{ color: '#6b7280' }}>
+                <span>{badge.icon}</span>
+                <span>{badge.label}</span>
+              </div>
             ))}
           </div>
         </div>
@@ -507,7 +597,7 @@ export default function Home() {
                 <span className="text-4xl font-extrabold">19,99</span>
                 <span className="text-base" style={{ color: '#6b7280' }}> €</span>
               </div>
-              <p className="text-sm mb-7" style={{ color: '#6b7280' }}>/ mois</p>
+              <p className="text-sm mb-7" style={{ color: '#6b7280' }}>/ mois, sans engagement</p>
               <ul className="text-sm space-y-3 mb-8 text-left" style={{ color: '#9ca3af' }}>
                 {[
                   'Tout du plan Pilote',
@@ -522,7 +612,7 @@ export default function Home() {
                 ))}
               </ul>
               <a href="mailto:hello@seuilnet.fr?subject=Inscription Expert" className="btn-secondary" style={{ display: 'block', width: '100%', fontSize: '0.875rem', padding: '11px 0' }}>
-                Contacter
+                Souscrire — 19,99 € / mois
               </a>
             </div>
           </div>
@@ -661,8 +751,8 @@ export default function Home() {
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: '#2D6A4F15', color: '#52B788', border: '1px solid #2D6A4F25' }}>2026</span>
           </div>
           <div className="flex gap-6 text-sm" style={{ color: '#6b7280' }}>
-            <a href="/confidentialite" className="hover:text-white transition-colors">Confidentialité</a>
-            <a href="/cgu" className="hover:text-white transition-colors">CGU</a>
+            <a href="mailto:hello@seuilnet.fr?subject=Confidentialité" className="hover:text-white transition-colors">Confidentialité</a>
+            <a href="mailto:hello@seuilnet.fr?subject=CGU" className="hover:text-white transition-colors">CGU</a>
             <a href="mailto:hello@seuilnet.fr" className="hover:text-white transition-colors">Contact</a>
           </div>
           <p className="text-sm" style={{ color: '#4b5563' }}>© 2026 SeuilNet — Tous droits réservés</p>
