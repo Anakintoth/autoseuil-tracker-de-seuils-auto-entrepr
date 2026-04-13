@@ -18,22 +18,33 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ result: '' }, { status: 400 });
   }
 
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
-      messages: [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userMessage },
-      ],
-      max_tokens: 512,
-      temperature: 0.7,
-    }),
-  });
+  if (!process.env.GROQ_API_KEY) {
+    console.error('GROQ_API_KEY is not set');
+    return NextResponse.json({ result: 'Service de conseil momentanément indisponible. Réessayez dans quelques instants.' }, { status: 503 });
+  }
+
+  let res: Response;
+  try {
+    res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: userMessage },
+        ],
+        max_tokens: 512,
+        temperature: 0.7,
+      }),
+    });
+  } catch (err) {
+    console.error('Groq fetch error:', err);
+    return NextResponse.json({ result: 'Service temporairement indisponible. Vérifiez votre connexion.' }, { status: 502 });
+  }
 
   if (!res.ok) {
     const error = await res.text();

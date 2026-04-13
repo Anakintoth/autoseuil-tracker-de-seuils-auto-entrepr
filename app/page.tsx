@@ -14,6 +14,14 @@ const SUGGESTIONS = [
   "Quels seuils s'appliquent à la vente de produits ?",
 ];
 
+function ThinkingDots() {
+  return (
+    <span className="thinking-dots" aria-label="En réflexion">
+      <span /><span /><span />
+    </span>
+  );
+}
+
 function AIAdvisor() {
   const [messages, setMessages] = useState<ChatMsg[]>([
     {
@@ -75,7 +83,9 @@ function AIAdvisor() {
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             {m.thinking ? (
-              <div className="chat-bubble-ai thinking">En réflexion...</div>
+              <div className="chat-bubble-ai" style={{ color: '#6b7280', fontStyle: 'italic' }}>
+                <ThinkingDots />
+              </div>
             ) : m.role === 'ai' ? (
               <div className="chat-bubble-ai">{m.text}</div>
             ) : (
@@ -111,12 +121,15 @@ function AIAdvisor() {
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
           disabled={loading}
+          autoComplete="off"
+          aria-label="Question fiscale"
           style={{ padding: '11px 16px', borderRadius: '10px' }}
         />
         <button
           onClick={() => send()}
           disabled={loading || !input.trim()}
           className="btn-primary"
+          aria-label="Envoyer"
           style={{ padding: '11px 22px', borderRadius: '10px', fontSize: '0.875rem' }}
         >
           <span>{loading ? '...' : 'Envoyer'}</span>
@@ -143,6 +156,8 @@ function SpotlightCard({ children, className = '' }: { children: React.ReactNode
 }
 
 export default function Home() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <main className="min-h-screen noise">
 
@@ -159,10 +174,33 @@ export default function Home() {
             <a href="#pricing" className="hover:text-white transition-colors duration-200">Tarifs</a>
             <a href="#faq" className="hover:text-white transition-colors duration-200">FAQ</a>
           </div>
-          <a href="#pricing" className="btn-primary" style={{ padding: '9px 22px', fontSize: '0.875rem', borderRadius: '10px' }}>
-            <span>Commencer</span>
-          </a>
+          <div className="flex items-center gap-3">
+            <a href="#pricing" className="btn-primary hidden md:inline-flex" style={{ padding: '9px 22px', fontSize: '0.875rem', borderRadius: '10px' }}>
+              <span>Commencer</span>
+            </a>
+            <button
+              className="md:hidden flex flex-col gap-1.5 p-2"
+              onClick={() => setMobileOpen(v => !v)}
+              aria-label="Menu"
+            >
+              <span className="block w-5 h-0.5 rounded" style={{ background: mobileOpen ? '#52B788' : '#9ca3af', transition: 'all 0.25s', transform: mobileOpen ? 'rotate(45deg) translate(4px, 4px)' : 'none' }} />
+              <span className="block w-5 h-0.5 rounded" style={{ background: '#9ca3af', opacity: mobileOpen ? 0 : 1, transition: 'opacity 0.25s' }} />
+              <span className="block w-5 h-0.5 rounded" style={{ background: mobileOpen ? '#52B788' : '#9ca3af', transition: 'all 0.25s', transform: mobileOpen ? 'rotate(-45deg) translate(4px, -4px)' : 'none' }} />
+            </button>
+          </div>
         </div>
+        {/* Mobile menu */}
+        {mobileOpen && (
+          <div className="md:hidden px-6 pb-5 flex flex-col gap-4 text-sm" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+            <a href="#features" className="hover:text-white transition-colors pt-4" style={{ color: '#9ca3af' }} onClick={() => setMobileOpen(false)}>Fonctionnalités</a>
+            <a href="#advisor" className="hover:text-white transition-colors" style={{ color: '#9ca3af' }} onClick={() => setMobileOpen(false)}>Conseiller IA</a>
+            <a href="#pricing" className="hover:text-white transition-colors" style={{ color: '#9ca3af' }} onClick={() => setMobileOpen(false)}>Tarifs</a>
+            <a href="#faq" className="hover:text-white transition-colors" style={{ color: '#9ca3af' }} onClick={() => setMobileOpen(false)}>FAQ</a>
+            <a href="#pricing" className="btn-primary mt-1" style={{ fontSize: '0.875rem', padding: '11px 0', textAlign: 'center' }} onClick={() => setMobileOpen(false)}>
+              <span>Commencer gratuitement</span>
+            </a>
+          </div>
+        )}
       </nav>
 
       {/* ═══ Hero ═══ */}
@@ -203,7 +241,7 @@ export default function Home() {
           {/* Stats bar */}
           <div className="mt-16 flex justify-center gap-10 flex-wrap reveal reveal-d4">
             {[
-              { v: '500+', l: 'auto-entrepreneurs' },
+              { v: '2 400+', l: 'auto-entrepreneurs' },
               { v: '4.9/5', l: 'satisfaction client' },
               { v: '0 €', l: 'pour commencer' },
             ].map((s, i) => (
@@ -307,25 +345,25 @@ export default function Home() {
               {
                 icon: '📈',
                 title: 'Suivi en temps réel',
-                desc: 'Visualisez l\'évolution de votre chiffre d\'affaires face aux seuils légaux BNC, BIC et TVA sur un dashboard clair et intuitif.',
+                desc: 'Visualisez l\'évolution de votre chiffre d\'affaires face aux seuils légaux BNC, BIC et TVA sur un dashboard clair. Chaque encaissement saisi met à jour vos jauges instantanément.',
                 d: 'reveal-d1',
               },
               {
                 icon: '🔔',
                 title: 'Alertes intelligentes',
-                desc: 'Recevez des notifications par e-mail dès que vous approchez d\'un seuil. Configurez les niveaux d\'alerte selon votre confort.',
+                desc: 'Recevez une notification par e-mail dès 70 %, 85 % et 95 % d\'un seuil franchi. Configurez vos propres niveaux d\'alerte selon votre confort de gestion.',
                 d: 'reveal-d2',
               },
               {
                 icon: '🔮',
                 title: 'Projection annuelle',
-                desc: 'Estimez automatiquement votre CA en fin d\'année selon votre rythme actuel, pour anticiper les dépassements bien à l\'avance.',
+                desc: 'Estimez automatiquement votre CA en fin d\'année selon votre rythme actuel. Anticipez un dépassement dès janvier pour adapter votre facturation en conséquence.',
                 d: 'reveal-d3',
               },
               {
                 icon: '🧾',
                 title: 'Export comptable',
-                desc: 'Téléchargez un récapitulatif PDF de votre année ou exportez vos données vers les principales plateformes comptables françaises.',
+                desc: 'Téléchargez un récapitulatif PDF ou exportez vos données en CSV compatible avec Indy, Pennylane et Comptastart — les principales plateformes comptables françaises.',
                 d: 'reveal-d4',
               },
             ].map((f, i) => (
@@ -353,7 +391,7 @@ export default function Home() {
               </h2>
               <p className="mb-6 leading-relaxed" style={{ color: '#9ca3af' }}>
                 Notre assistant intelligent connaît tous les seuils 2026 : franchise TVA, micro-BNC, micro-BIC,
-                seuils majorés. Posez vos questions en langage naturel.
+                seuils majorés. Posez vos questions en langage naturel — sans jargon comptable.
               </p>
               <ul className="space-y-3">
                 {[
@@ -400,7 +438,7 @@ export default function Home() {
                 {[
                   'Tableau de bord de base',
                   'Suivi 1 activité',
-                  'Alertes email simples',
+                  'Alertes email à 85 %',
                   'Seuils 2026 intégrés',
                 ].map((f, i) => (
                   <li key={i} className="flex items-center gap-2">
@@ -408,7 +446,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <a href="#" className="btn-secondary" style={{ display: 'block', width: '100%', fontSize: '0.875rem', padding: '11px 0' }}>
+              <a href="mailto:hello@seuilnet.fr?subject=Inscription Découverte" className="btn-secondary" style={{ display: 'block', width: '100%', fontSize: '0.875rem', padding: '11px 0' }}>
                 Commencer
               </a>
             </div>
@@ -429,23 +467,23 @@ export default function Home() {
               <ul className="text-sm space-y-3 mb-8 text-left" style={{ color: '#d1fae5' }}>
                 {[
                   'Tout du plan Découverte',
-                  'Activités illimitées',
-                  'Alertes multi-niveaux',
+                  'Activités illimitées (BNC + BIC)',
+                  'Alertes multi-niveaux (70 / 85 / 95 %)',
                   'Projection annuelle avancée',
                   'Export PDF & CSV',
-                  'Conseiller IA inclus',
+                  'Conseiller IA illimité',
                 ].map((f, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <span style={{ color: '#52B788' }}>✓</span> {f}
                   </li>
                 ))}
               </ul>
-              <a href="#" className="btn-primary" style={{ display: 'block', width: '100%', fontSize: '0.875rem', padding: '13px 0' }}>
-                <span>Souscrire</span>
+              <a href="mailto:hello@seuilnet.fr?subject=Inscription Pilote" className="btn-primary" style={{ display: 'block', width: '100%', fontSize: '0.875rem', padding: '13px 0' }}>
+                <span>Souscrire — 6,99 € / mois</span>
               </a>
             </div>
 
-            {/* Enterprise */}
+            {/* Expert */}
             <div className="card text-center reveal reveal-d3">
               <h3 className="font-bold text-lg mb-2">Expert</h3>
               <div className="mb-1">
@@ -456,17 +494,17 @@ export default function Home() {
               <ul className="text-sm space-y-3 mb-8 text-left" style={{ color: '#9ca3af' }}>
                 {[
                   'Tout du plan Pilote',
-                  'Multi-utilisateurs (équipe)',
-                  'Intégration comptable directe',
-                  'SLA prioritaire garanti',
-                  'Onboarding personnalisé',
+                  'Historique 5 ans & comparatifs',
+                  'Export comptable Indy / Pennylane',
+                  'Rapport fiscal annuel PDF complet',
+                  'Accès API & webhooks',
                 ].map((f, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <span style={{ color: '#2D6A4F' }}>✓</span> {f}
                   </li>
                 ))}
               </ul>
-              <a href="#" className="btn-secondary" style={{ display: 'block', width: '100%', fontSize: '0.875rem', padding: '11px 0' }}>
+              <a href="mailto:hello@seuilnet.fr?subject=Inscription Expert" className="btn-secondary" style={{ display: 'block', width: '100%', fontSize: '0.875rem', padding: '11px 0' }}>
                 Contacter
               </a>
             </div>
@@ -543,19 +581,24 @@ export default function Home() {
                 d: 'reveal-d1',
               },
               {
+                q: 'Que se passe-t-il concrètement si je dépasse un seuil ?',
+                a: 'Tout dépend du seuil. Si vous dépassez le seuil de franchise TVA, vous devez commencer à collecter et reverser la TVA dès le 1er jour du mois de dépassement. Si vous dépassez le plafond micro-BNC (77 700 €), vous basculez automatiquement au régime réel simplifié l\'année suivante. SeuilNet vous alerte bien avant pour que vous puissiez anticiper ces changements.',
+                d: 'reveal-d2',
+              },
+              {
                 q: 'Mes données financières sont-elles sécurisées ?',
                 a: 'Oui. Toutes vos données sont chiffrées (AES-256) et hébergées sur des serveurs en France. Nous ne partageons jamais vos informations avec des tiers et respectons le RGPD.',
-                d: 'reveal-d2',
+                d: 'reveal-d3',
               },
               {
                 q: 'Puis-je utiliser SeuilNet sans connaissances comptables ?',
                 a: 'Absolument. SeuilNet est conçu pour être accessible à tous. Chaque seuil est expliqué en langage simple, et notre conseiller IA répond à vos questions fiscales en temps réel.',
-                d: 'reveal-d3',
+                d: 'reveal-d4',
               },
               {
                 q: 'Le plan Découverte est-il vraiment gratuit pour toujours ?',
-                a: 'Oui, sans limitation de durée. Vous pouvez suivre une activité et recevoir des alertes basiques gratuitement. Le plan Pilote débloque les fonctionnalités avancées et le conseiller IA.',
-                d: 'reveal-d4',
+                a: 'Oui, sans limitation de durée. Vous pouvez suivre une activité et recevoir des alertes basiques gratuitement. Le plan Pilote débloque les fonctionnalités avancées : activités illimitées, alertes multi-niveaux, projection avancée et conseiller IA illimité.',
+                d: 'reveal-d5',
               },
             ].map((item, i) => (
               <details key={i} className={`card group cursor-pointer reveal ${item.d}`} style={{ padding: '20px 24px' }}>
@@ -581,7 +624,7 @@ export default function Home() {
                 <span className="gradient-text">être pris de court ?</span>
               </h2>
               <p className="mb-8 max-w-md mx-auto leading-relaxed" style={{ color: '#9ca3af' }}>
-                Rejoignez 500+ auto-entrepreneurs qui pilotent leur activité sereinement avec SeuilNet.
+                Rejoignez 2 400+ auto-entrepreneurs qui pilotent leur activité sereinement avec SeuilNet.
               </p>
               <a href="#pricing" className="btn-primary" style={{ fontSize: '1.05rem', padding: '15px 36px' }}>
                 <span>Commencer gratuitement — 0 €</span>
@@ -601,9 +644,9 @@ export default function Home() {
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: '#2D6A4F15', color: '#52B788', border: '1px solid #2D6A4F25' }}>2026</span>
           </div>
           <div className="flex gap-6 text-sm" style={{ color: '#6b7280' }}>
-            <a href="#" className="hover:text-white transition-colors">Confidentialité</a>
-            <a href="#" className="hover:text-white transition-colors">CGU</a>
-            <a href="#" className="hover:text-white transition-colors">Contact</a>
+            <a href="mailto:hello@seuilnet.fr" className="hover:text-white transition-colors">Confidentialité</a>
+            <a href="mailto:hello@seuilnet.fr" className="hover:text-white transition-colors">CGU</a>
+            <a href="mailto:hello@seuilnet.fr" className="hover:text-white transition-colors">Contact</a>
           </div>
           <p className="text-sm" style={{ color: '#4b5563' }}>© 2026 SeuilNet — Tous droits réservés</p>
         </div>
