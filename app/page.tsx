@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import type { ReactNode } from 'react';
 
 interface ChatMsg {
   role: 'user' | 'ai';
@@ -139,7 +140,7 @@ function AIAdvisor() {
   );
 }
 
-function SpotlightCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+function SpotlightCard({ children, className = '' }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   function onMove(e: React.MouseEvent) {
     const el = ref.current;
@@ -157,6 +158,22 @@ function SpotlightCard({ children, className = '' }: { children: React.ReactNode
 
 export default function Home() {
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -48px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <main className="min-h-screen noise">
@@ -196,7 +213,7 @@ export default function Home() {
             <a href="#advisor" className="hover:text-white transition-colors" style={{ color: '#9ca3af' }} onClick={() => setMobileOpen(false)}>Conseiller IA</a>
             <a href="#pricing" className="hover:text-white transition-colors" style={{ color: '#9ca3af' }} onClick={() => setMobileOpen(false)}>Tarifs</a>
             <a href="#faq" className="hover:text-white transition-colors" style={{ color: '#9ca3af' }} onClick={() => setMobileOpen(false)}>FAQ</a>
-            <a href="#pricing" className="btn-primary mt-1" style={{ fontSize: '0.875rem', padding: '11px 0', textAlign: 'center' }} onClick={() => setMobileOpen(false)}>
+            <a href="#pricing" className="btn-primary mt-1" style={{ fontSize: '0.875rem', padding: '11px 20px', display: 'flex', width: '100%', justifyContent: 'center' }} onClick={() => setMobileOpen(false)}>
               <span>Commencer gratuitement</span>
             </a>
           </div>
@@ -330,7 +347,7 @@ export default function Home() {
       {/* ═══ Features ═══ */}
       <section id="features" className="py-28 px-6 relative">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal">
             <div className="badge mb-4">Fonctionnalités</div>
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
               Tout ce qu&apos;il faut pour<br />
@@ -419,7 +436,7 @@ export default function Home() {
       {/* ═══ Pricing ═══ */}
       <section id="pricing" className="py-28 px-6 relative">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal">
             <div className="badge mb-4">Tarifs</div>
             <h2 className="text-4xl font-extrabold mb-4 tracking-tight">Simple et transparent</h2>
             <p style={{ color: '#6b7280' }}>Commencez gratuitement. Évoluez quand vous êtes prêt.</p>
@@ -460,7 +477,7 @@ export default function Home() {
               </div>
               <h3 className="font-bold text-lg mb-2 mt-2">Pilote</h3>
               <div className="mb-1">
-                <span className="text-5xl font-extrabold">6.99</span>
+                <span className="text-5xl font-extrabold">6,99</span>
                 <span className="text-base" style={{ color: '#6b7280' }}> €</span>
               </div>
               <p className="text-sm mb-7" style={{ color: '#6b7280' }}>/ mois, sans engagement</p>
@@ -487,7 +504,7 @@ export default function Home() {
             <div className="card text-center reveal reveal-d3">
               <h3 className="font-bold text-lg mb-2">Expert</h3>
               <div className="mb-1">
-                <span className="text-4xl font-extrabold">19.99</span>
+                <span className="text-4xl font-extrabold">19,99</span>
                 <span className="text-base" style={{ color: '#6b7280' }}> €</span>
               </div>
               <p className="text-sm mb-7" style={{ color: '#6b7280' }}>/ mois</p>
@@ -517,7 +534,7 @@ export default function Home() {
       {/* ═══ Testimonials ═══ */}
       <section className="py-28 px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal">
             <div className="badge mb-4">Témoignages</div>
             <h2 className="text-4xl font-extrabold tracking-tight">Ils nous font confiance</h2>
           </div>
@@ -569,7 +586,7 @@ export default function Home() {
       {/* ═══ FAQ ═══ */}
       <section id="faq" className="py-28 px-6">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 reveal">
             <div className="badge mb-4">FAQ</div>
             <h2 className="text-4xl font-extrabold tracking-tight">Questions fréquentes</h2>
           </div>
@@ -644,8 +661,8 @@ export default function Home() {
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: '#2D6A4F15', color: '#52B788', border: '1px solid #2D6A4F25' }}>2026</span>
           </div>
           <div className="flex gap-6 text-sm" style={{ color: '#6b7280' }}>
-            <a href="mailto:hello@seuilnet.fr" className="hover:text-white transition-colors">Confidentialité</a>
-            <a href="mailto:hello@seuilnet.fr" className="hover:text-white transition-colors">CGU</a>
+            <a href="/confidentialite" className="hover:text-white transition-colors">Confidentialité</a>
+            <a href="/cgu" className="hover:text-white transition-colors">CGU</a>
             <a href="mailto:hello@seuilnet.fr" className="hover:text-white transition-colors">Contact</a>
           </div>
           <p className="text-sm" style={{ color: '#4b5563' }}>© 2026 SeuilNet — Tous droits réservés</p>

@@ -289,13 +289,21 @@ body {
 .reveal {
   opacity: 0;
   transform: translateY(32px);
-  animation: reveal-up 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transition: none;
 }
-.reveal-d1 { animation-delay: 0.1s; }
-.reveal-d2 { animation-delay: 0.22s; }
-.reveal-d3 { animation-delay: 0.34s; }
-.reveal-d4 { animation-delay: 0.46s; }
-.reveal-d5 { animation-delay: 0.58s; }
+.reveal.visible {
+  animation: reveal-up 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  /* Restore hover transitions on cards after reveal animation completes */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-d1.visible { animation-delay: 0.1s; }
+.reveal-d2.visible { animation-delay: 0.22s; }
+.reveal-d3.visible { animation-delay: 0.34s; }
+.reveal-d4.visible { animation-delay: 0.46s; }
+.reveal-d5.visible { animation-delay: 0.58s; }
 @keyframes reveal-up {
   to { opacity: 1; transform: translateY(0); }
 }
@@ -401,14 +409,23 @@ body {
   position: relative;
   border-radius: 24px;
 }
+/* Fallback: static gradient border for browsers without @property support */
 .cta-glow-border::before {
   content: '';
   position: absolute;
   inset: -1.5px;
   border-radius: 26px;
-  background: conic-gradient(from var(--conic-angle), #2D6A4F, #52B788, #F4A261, #52B788, #2D6A4F);
-  animation: spin-conic 6s linear infinite;
+  background: linear-gradient(135deg, #2D6A4F, #52B788, #F4A261, #52B788, #2D6A4F);
+  background-size: 300% 300%;
+  animation: border-rotate 5s linear infinite;
   z-index: -1;
+}
+/* Enhanced: spinning conic gradient when @property is supported */
+@supports (background: conic-gradient(from 0deg, red, red)) {
+  .cta-glow-border::before {
+    background: conic-gradient(from var(--conic-angle), #2D6A4F, #52B788, #F4A261, #52B788, #2D6A4F);
+    animation: spin-conic 6s linear infinite;
+  }
 }
 @keyframes spin-conic {
   to { --conic-angle: 360deg; }
@@ -451,4 +468,22 @@ body {
   color: #F4A261;
   letter-spacing: 2px;
   font-size: 0.9rem;
+}
+
+/* ═══ FAQ — remove WebKit summary disclosure triangle ═══ */
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* ═══ Accessibility — reduced motion ═══ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
